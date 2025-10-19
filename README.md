@@ -79,3 +79,8 @@ When `renderTextOverlay` is `false`, the payload is the filled-and-flattened ori
 
 - Keep a known template with a few fields to validate the behavior locally.
 - Compare the filled PDF visually or with a PDF text inspector to verify the flattened result.
+
+## Credits
+
+- Built in tandem with OpenAI's Codex assistant to accelerate PDF manipulation and documentation.
+- Powered by [iText 7](https://itextpdf.com/) for PDF form handling and rendering.
