@@ -1,0 +1,104 @@
+{
+  "info": {
+    "_postman_id": "0e44b0d7-e0fe-4ec8-9a6a-eb502b9b52e1",
+    "name": "PDFPrintEngine",
+    "description": "Collection generated from the README. The ProcessPDF function accepts a base64-encoded, fillable PDF and a set of field values, fills the form, optionally renders the values onto a blank overlay PDF, flattens the result, and returns the PDF as a base64 string.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "ProcessPDF",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pdfBase64\": \"{{pdfBase64}}\",\n  \"fields\": [\n    { \"fieldName\": \"FullName\", \"value\": \"Ada Lovelace\" },\n    { \"fieldName\": \"Date\", \"value\": \"2025-01-01\" }\n  ],\n  \"renderTextOverlay\": {{renderTextOverlay}}\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/ProcessPDF",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "ProcessPDF"
+          ]
+        },
+        "description": "Fills and flattens the supplied PDF form. Set `renderTextOverlay` to true to draw the values onto a blank overlay PDF instead of returning the filled template. Fields that do not exist are ignored but logged by the function."
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pdfBase64\": \"...\",\n  \"fields\": [\n    { \"fieldName\": \"FullName\", \"value\": \"Ada Lovelace\" },\n    { \"fieldName\": \"Date\", \"value\": \"2025-01-01\" }\n  ],\n  \"renderTextOverlay\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ProcessPDF",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ProcessPDF"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "body": "{\n  \"pdfBase64\": \"<base64 string of the flattened PDF>\"\n}"
+        }
+      ],
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "pm.test('Response contains pdfBase64 string', function () {",
+              "  const json = pm.response.json();",
+              "  pm.expect(json).to.have.property('pdfBase64');",
+              "  pm.expect(json.pdfBase64).to.be.a('string');",
+              "  pm.expect(json.pdfBase64.length).to.be.above(0);",
+              "});"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:7071",
+      "type": "string"
+    },
+    {
+      "key": "pdfBase64",
+      "value": "REPLACE_WITH_PDF_BASE64",
+      "type": "string"
+    },
+    {
+      "key": "renderTextOverlay",
+      "value": "false",
+      "type": "string"
+    }
+  ]
+}
